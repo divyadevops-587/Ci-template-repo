@@ -1,0 +1,22 @@
+jobs:
+  build-test:
+    uses: ./.github/workflows/build-test.yml
+
+  docker-build:
+    needs: build-test
+    uses: ./.github/workflows/docker-build.yml
+
+  sonarqube:
+    needs: build-test
+    uses: ./.github/workflows/sonarqube.yml
+    secrets: inherit
+
+  blackduck:
+    needs: build-test
+    uses: ./.github/workflows/blackduck.yml
+    secrets: inherit
+
+  deploy:
+    needs: docker-build
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
