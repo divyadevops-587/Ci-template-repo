@@ -1,1 +1,2 @@
 # Ci-template-repo
+Hi
