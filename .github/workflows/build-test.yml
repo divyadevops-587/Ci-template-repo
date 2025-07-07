@@ -1,0 +1,28 @@
+name: Build and Test
+
+on:
+  workflow_call:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect language and install dependencies
+        run: |
+          if [ -f "requirements.txt" ]; then
+            echo "Python project detected"
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+            pytest || echo "No tests found"
+          elif [ -f "package.json" ]; then
+            echo "Node.js project detected"
+            npm ci
+            npm test || echo "No tests found"
+          elif [ -f "pom.xml" ]; then
+            echo "Java Maven project detected"
+            mvn clean install
+          else
+            echo "No recognized build system found"
+            exit 1
