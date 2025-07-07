@@ -1,0 +1,16 @@
+name: Black Duck Scan
+
+on:
+  workflow_call:
+
+jobs:
+  blackduck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: synopsys-sig/synopsys-action@v1.0.0
+        with:
+          blackduck_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
+          scan_full: true
